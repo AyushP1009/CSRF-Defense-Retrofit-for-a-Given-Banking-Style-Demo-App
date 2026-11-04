@@ -58,11 +58,7 @@ File layout may change when TA starter code is received.
 See [GitHub Issues](../../issues) for owners and acceptance criteria.
 
 ## Division of responsibilities
-- **Samuel Lucas**: bank application and fake transaction workflow — Issue #1
-- **Ayush Patel**: CSRF protection, cookie defense, integration — Issue #2
-- **Ian Wambua**: cross-site attack page and security tests — Issue #3
-- **Angel Urena**: report, README and presentation — Issue #4
-- **Everyone**: final integration and defense rehearsal — Issue #5
+-
 
 ## Development workflow
 1. Clone this repository and create a branch per task, for example `feature/banking-app`.
