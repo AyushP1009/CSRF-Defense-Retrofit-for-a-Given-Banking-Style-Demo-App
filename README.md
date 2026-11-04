@@ -1,4 +1,4 @@
-# CSRF Defense Retrofit — Banking-Style Demo App
+# CSRF Defense Retrofit: Banking-Style Demo App
 
 ITIS 3200 group project: Samuel Lucas, Ayush Patel, Ian Wambua, Angel Urena.
 
