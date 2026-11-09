@@ -58,7 +58,16 @@ File layout may change when TA starter code is received.
 See [GitHub Issues](../../issues) for owners and acceptance criteria.
 
 ## Division of responsibilities
--
+All four members own a technical implementation task; report and presentation work will be shared later.
+
+| Task | Member | Technical responsibility | GitHub issue | Suggested branch |
+|---|---|---|---|---|
+| 1 | **Angel Urena** | Banking backend: login, accounts, fake balances, transfers, SQLite | [#1](../../issues/1) | `feature/banking-backend` |
+| 2 | **Ian Wambua** | CSRF protection: session-bound tokens, validation, SameSite cookies | [#2](../../issues/2) | `feature/csrf-security` |
+| 3 | **Ayush Patel** | CSRF attack simulation: malicious page, vulnerable/secure testing | [#3](../../issues/3) | `feature/csrf-attack-demo` |
+| 4 | **Samuel Lucas (Sam)** | Banking frontend and integration: login/dashboard/transfer UI | [#4](../../issues/4) | `feature/banking-frontend` |
+
+All members share [integration and defense testing (#5)](../../issues/5). Coordinate the transfer route, field names and security token flow before implementing independently.
 
 ## Development workflow
 1. Clone this repository and create a branch per task, for example `feature/banking-app`.
