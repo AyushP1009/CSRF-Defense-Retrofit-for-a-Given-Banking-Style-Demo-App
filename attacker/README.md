@@ -1,6 +1,5 @@
 # Local CSRF Attack Demonstration (Ayush)
 
-This folder is the **attacker-controlled site**, separate from Angel's Flask bank. It targets only the team's fake-money local `POST /transfer` endpoint.
 
 ## Run the vulnerable baseline
 
