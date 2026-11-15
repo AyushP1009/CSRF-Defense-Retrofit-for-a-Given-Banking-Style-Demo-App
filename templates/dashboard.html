@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo Bank - Dashboard</title>
+    <style>
+        body { font-family: "Times New Roman", Times, serif; background: #f2f4f7; margin: 0; }
+        .header { background: #1f3a5f; color: white; padding: 15px 30px; font-size: 22px; font-weight: bold; }
+        .header a { color: white; float: right; font-size: 16px; font-weight: normal; text-decoration: none; }
+        .container { width: 700px; margin: 30px auto; }
+        .box { background: white; padding: 20px; border: 1px solid #ccc; margin-bottom: 20px; }
+        input { padding: 8px; margin: 5px 10px 10px 0; }
+        button { background: #1f3a5f; color: white; border: none; padding: 9px 20px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #e6e9ee; }
+        .message { background: #fff3cd; border: 1px solid #e0c97a; padding: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header"><img src="{{ url_for('static', filename='bank_img.jpg') }}" style="height:28px; vertical-align:bottom; margin-right:8px;"> Demo Bank <a href="/logout">Log Out</a></div>
+    <div style="background:#fff3cd; color:#664d03; padding:8px 20px; font-size:14px;">Security Mode: NO CSRF PROTECTION</div>
+    <div class="container">
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+
+        <div class="box">
+            <h3>Welcome, {{ user["username"] }}</h3>
+            <p>Balance: <b>${{ "%.2f"|format(user["balance"]) }}</b></p>
+        </div>
+
+        <div class="box">
+            <h3>Transfer Money</h3>
+            <form method="POST" action="/transfer">
+                <input type="text" name="receiver" placeholder="Send to (username)">
+                <input type="number" step="0.01" name="amount" placeholder="Amount">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+        <div class="box">
+            <h3>Transaction History</h3>
+            <table>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Amount</th>
+                    <th>Time</th>
+                </tr>
+                {% for t in history %}
+                <tr>
+                    <td>{{ t["sender"] }}</td>
+                    <td>{{ t["receiver"] }}</td>
+                    <td>${{ "%.2f"|format(t["amount"]) }}</td>
+                    <td>{{ t["timestamp"] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

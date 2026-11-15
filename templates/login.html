@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo Bank - Login</title>
+    <style>
+       body { font-family: "Times New Roman", Times, serif; background: #f2f4f7; margin: 0; }
+        .header { background: #1f3a5f; color: white; padding: 15px 30px; font-size: 22px; font-weight: bold; }
+        .box { background: white; width: 320px; margin: 60px auto; padding: 25px; border: 1px solid #ccc; }
+        input { width: 100%; padding: 8px; margin: 8px 0 15px 0; box-sizing: border-box; }
+        button { background: #1f3a5f; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+        .error { color: red; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header"><img src="{{ url_for('static', filename='bank_img.jpg') }}" style="height:28px; vertical-align:bottom; margin-right:8px;"> Demo Bank</div>
+    <div class="box">
+        <h3>Login</h3>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        <form method="POST" action="/login">
+            <label>Username</label>
+            <input type="text" name="username">
+            <label>Password</label>
+            <input type="password" name="password">
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+</body>
+</html>
