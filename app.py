@@ -1,8 +1,15 @@
 from flask import Flask, request, redirect, session, render_template, url_for
+from app.csrf import (
+    clear_csrf_token,
+    csrf_protect,
+    generate_csrf_token,
+    init_csrf,
+)
 from database import get_db, init_db
 
 app = Flask(__name__)
 app.secret_key = "demo-secret-key"
+init_csrf(app)
 
 
 @app.route("/")
@@ -27,6 +34,8 @@ def login():
         conn.close()
 
         if user:
+            session.clear()
+            generate_csrf_token(session, force_regenerate=True)
             session["user"] = user["username"]
             return redirect(url_for("dashboard"))
         error = "Wrong username or password."
@@ -35,6 +44,7 @@ def login():
 
 @app.route("/logout")
 def logout():
+    clear_csrf_token(session)
     session.clear()
     return redirect(url_for("login"))
 
@@ -59,10 +69,10 @@ def dashboard():
 
 
 @app.route("/transfer", methods=["POST"])
+@csrf_protect
 def transfer():
     if "user" not in session:
         return redirect(url_for("login"))
-
 
     receiver = request.form.get("receiver", "").strip()
     try:
@@ -103,6 +113,7 @@ def transfer():
 
 @app.route("/reset")
 def reset():
+    clear_csrf_token(session)
     init_db()
     session.clear()
     return redirect(url_for("login"))
