@@ -5,7 +5,7 @@
     <style>
         body { font-family: "Times New Roman", Times, serif; background: #f2f4f7; margin: 0; }
         .header { background: #1f3a5f; color: white; padding: 15px 30px; font-size: 22px; font-weight: bold; }
-        .header a { color: white; float: right; font-size: 16px; font-weight: normal; text-decoration: none; }
+        .header a { color: white; float: right; font-size: 16px; font-weight: normal; text-decoration: none; margin-left: 15px; }
         .container { width: 700px; margin: 30px auto; }
         .box { background: white; padding: 20px; border: 1px solid #ccc; margin-bottom: 20px; }
         input { padding: 8px; margin: 5px 10px 10px 0; }
@@ -17,8 +17,26 @@
     </style>
 </head>
 <body>
-    <div class="header"><img src="{{ url_for('static', filename='bank_img.jpg') }}" style="height:28px; vertical-align:bottom; margin-right:8px;"> Demo Bank <a href="/logout">Log Out</a></div>
-<div style="background:#d1e7dd; color:#0f5132; padding:8px 20px; font-size:14px;">Security Mode: CSRF TOKEN PROTECTED</div>    <div class="container">
+    <div class="header">
+        <img src="{{ url_for('static', filename='bank_img.jpg') }}" style="height:28px; vertical-align:bottom; margin-right:8px;">
+        Demo Bank
+
+        <a href="/logout">Log Out</a>
+        <a href="/reset" style="margin-right:15px;">Reset Demo</a>
+        <a href="/toggle-security" style="margin-right:15px;">Toggle Security</a>
+    </div>
+
+    {% if security_mode == "protected" %}
+    <div style="background:#d1e7dd; color:#0f5132; padding:8px 20px; font-size:14px;">
+        ✅ Security Mode: CSRF PROTECTION ENABLED
+    </div>
+    {% else %}
+    <div style="background:#fff3cd; color:#664d03; padding:8px 20px; font-size:14px;">
+        ⚠ Security Mode: NO CSRF PROTECTION
+    </div>
+    {% endif %}
+    <div class="container">
+
         {% if message %}
         <div class="message">{{ message }}</div>
         {% endif %}
@@ -47,6 +65,7 @@
                     <th>Amount</th>
                     <th>Time</th>
                 </tr>
+
                 {% for t in history %}
                 <tr>
                     <td>{{ t["sender"] }}</td>
@@ -55,8 +74,10 @@
                     <td>{{ t["timestamp"] }}</td>
                 </tr>
                 {% endfor %}
+
             </table>
         </div>
+
     </div>
 </body>
 </html>

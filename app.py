@@ -22,6 +22,7 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     error = None
+
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -37,8 +38,14 @@ def login():
             session.clear()
             generate_csrf_token(session, force_regenerate=True)
             session["user"] = user["username"]
+
+            if "security_mode" not in session:
+                session["security_mode"] = "vulnerable"
+
             return redirect(url_for("dashboard"))
+
         error = "Wrong username or password."
+
     return render_template("login.html", error=error)
 
 
@@ -65,7 +72,16 @@ def dashboard():
     conn.close()
 
     message = request.args.get("message")
-    return render_template("dashboard.html", user=user, history=history, message=message)
+
+    print("Security Mode:", session.get("security_mode"))
+
+    return render_template(
+        "dashboard.html",
+        user=user,
+        history=history,
+        message=message,
+        security_mode=session.get("security_mode", "vulnerable")
+    )
 
 
 @app.route("/transfer", methods=["POST"])
@@ -118,6 +134,17 @@ def reset():
     session.clear()
     return redirect(url_for("login"))
 
+@app.route("/toggle-security")
+def toggle_security():
+
+    current = session.get("security_mode", "vulnerable")
+
+    if current == "vulnerable":
+        session["security_mode"] = "protected"
+    else:
+        session["security_mode"] = "vulnerable"
+
+    return redirect(url_for("dashboard"))
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

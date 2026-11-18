@@ -29,7 +29,6 @@ app/
   templates/
     login.html
     dashboard.html
-    transfer.html
   static/
     style.css
 attacker/
@@ -83,3 +82,8 @@ All members share [integration and defense testing (#5)](../../issues/5). Coordi
 
 ## Notes
 The proposal's two IoT-related failure cases (HTTP sensor data interception and hardcoded firmware secrets) do not apply to this CSRF topic. The final project should focus on the unauthorized banking transfer and the concrete token/cookie defenses instead.
+
+## Demo accounts
+alice / password123
+bob / password123
+attacker / password123
