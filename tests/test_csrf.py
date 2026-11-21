@@ -62,6 +62,17 @@ def test_clear_csrf_token_invalidates_session(monkeypatch):
     assert validate_csrf_token(mock_session, token) is False
 
 
+def test_vulnerable_and_protected_modes(monkeypatch):
+    monkeypatch.setenv("CSRF_ENABLED", "true")
+    mock_session = {}
+
+    mock_session["security_mode"] = "vulnerable"
+    assert validate_csrf_token(mock_session, None) is True
+
+    mock_session["security_mode"] = "protected"
+    assert validate_csrf_token(mock_session, None) is False
+
+
 def test_cookie_security_config(monkeypatch):
     monkeypatch.setenv("SAMESITE_MODE", "Strict")
     monkeypatch.setenv("COOKIE_SECURE", "true")

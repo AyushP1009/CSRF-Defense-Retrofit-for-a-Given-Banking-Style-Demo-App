@@ -57,6 +57,9 @@ def validate_csrf_token(
     if not is_csrf_enabled():
         return True
 
+    if session_store.get("security_mode") == "vulnerable":
+        return True
+
     sid = session_store.get(SESSION_ID_KEY)
     if not sid or not submitted_token or not isinstance(submitted_token, str):
         return False
